@@ -1,0 +1,54 @@
+WARNING: A terminally deprecated method in java.lang.System has been called
+WARNING: System::setSecurityManager has been called by org.eclipse.ant.internal.core.ant.InternalAntRunner (file:C:/Users/Admin/AppData/Roaming/Cursor/User/workspaceStorage/fe5e38922c57dccd608562e435015fc4/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/install.app/org.eclipse.osgi/11/0/.cp/lib/antsupportlib.jar)
+WARNING: Please consider reporting this to the maintainers of org.eclipse.ant.internal.core.ant.InternalAntRunner
+WARNING: System::setSecurityManager will be removed in a future release
+Build sequence for target(s) `setup' is [setupJetty, setup]
+Complete build sequence is [setupJetty, setup, ]
+
+setupJetty:
+     [echo] Setup Jetty ===================
+Property "env.IDEMPIERE_HOME" has not been set
+     [echo] IDEMPIERE_HOME = ${env.IDEMPIERE_HOME}
+[available] Found: D:\sham\Eval2\idempiereEnv.properties
+ [property] Loading D:\sham\Eval2\idempiereEnv.properties
+Override ignored for property "JAVA_HOME"
+Override ignored for property "IDEMPIERE_HOME"
+   [filter] Reading filters from D:\sham\Eval2\idempiereEnv.properties
+Reading filters from D:\sham\Eval2\idempiereEnv.properties
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\jetty-template.xml to D:\sham\Eval2\jettyhome\etc\jetty.xml
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\jetty-ssl-template.xml to D:\sham\Eval2\jettyhome\etc\jetty-ssl.xml
+Replacing: @ADEMPIERE_APPS_SERVER@ -> 0.0.0.0
+Replacing: @ADEMPIERE_SSL_PORT@ -> 8443
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\jetty-deploy.xml to D:\sham\Eval2\jettyhome\etc\jetty-deploy.xml
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\jetty-https.xml to D:\sham\Eval2\jettyhome\etc\jetty-https.xml
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\jetty-ssl-context-template.xml to D:\sham\Eval2\jettyhome\etc\jetty-ssl-context.xml
+Replacing: @ADEMPIERE_KEYSTOREPASS@ -> OBF:1uh41zly1qw01vu11ym71ym71vv91qxq1zlk1ugm
+Replacing: @ADEMPIERE_KEYSTOREPASS@ -> OBF:1uh41zly1qw01vu11ym71ym71vv91qxq1zlk1ugm
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\jetty-http-template.xml to D:\sham\Eval2\jettyhome\etc\jetty-http.xml
+Replacing: @ADEMPIERE_APPS_SERVER@ -> 0.0.0.0
+Replacing: @ADEMPIERE_WEB_PORT@ -> 8080
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\jetty-threadpool.xml to D:\sham\Eval2\jettyhome\etc\jetty-threadpool.xml     
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\jetty-http-forwarded.xml to D:\sham\Eval2\jettyhome\etc\jetty-http-forwarded.xml
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\jetty-bytebufferpool.xml to D:\sham\Eval2\jettyhome\etc\jetty-bytebufferpool.xml
+     [copy] Copying 1 file to D:\sham\Eval2\jettyhome\etc
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\jettyhome\etc\webdefault-ee8.xml to D:\sham\Eval2\jettyhome\etc\webdefault-ee8.xml
+     [copy] Copying 1 file to D:\sham\Eval2
+     [copy] Copying D:\sham\Eval2\org.adempiere.server-feature\hazelcast-template.xml to D:\sham\Eval2\hazelcast.xml
+Replacing: @ADEMPIERE_DB_USER@ -> adempiere
+Replacing: @ADEMPIERE_DB_NAME@ -> idempiere
+Replacing: @ADEMPIERE_DB_SERVER@ -> localhost
+Replacing: @ADEMPIERE_DB_PORT@ -> 5432
+
+setup:
+BUILD SUCCESSFUL
+
+BUILD SUCCESSFUL
