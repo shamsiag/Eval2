@@ -1,6 +1,0 @@
-SET SQLBLANKLINES ON
-SET DEFINE OFF
-
-SELECT register_migration_script('202211180700_IDEMPIERE-5481.sql') FROM dual;
-
--- PostgreSQL Only

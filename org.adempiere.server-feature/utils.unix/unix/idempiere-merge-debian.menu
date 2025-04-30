@@ -1,7 +1,0 @@
-    <!-- iDempiere -->
-    <Menu>
-      <Name>iDempiere</Name>
-      <MergeFile>idempiere.menu</MergeFile>
-    </Menu>
-    <!-- End of iDempiere -->
-
