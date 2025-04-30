@@ -1,0 +1,4986 @@
+{
+	"info": {
+		"_postman_id": "7e3d4832-ac90-4b3d-aad1-a3daa716de88",
+		"name": "trekglobal-idempiere-rest",
+		"description": "Import or create an environment with the variables: host, port, protocol, userName, password, clientId, roleId, organizationId, warehouseId, language, sysuserName and syspassword\n\nRun POST api/v1/auth/tokens to get the first authentication token.\n\nThen run PUT api/v1/auth/tokens to get the second authentication token.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8597989"
+	},
+	"item": [
+		{
+			"name": "api/v1/auth/tokens",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"authToken\", jsonData.token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"{{userName}}\",\n    \"password\": \"{{password}}\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/tokens",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"tokens"
+					]
+				},
+				"description": "Create authentication token with user name and password. The return token is use as Authorization request header (Bearer {token}) for subsequent api/v1/auth call"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/auth/tokens one step",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"authToken\", jsonData.token);",
+							"pm.environment.set(\"refreshToken\", jsonData.refresh_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"{{userName}}\",\n    \"password\": \"{{password}}\",\n    \"parameters\": {\n        \"clientId\": {{clientId}},\n        \"roleId\": {{roleId}},\n        \"organizationId\": {{organizationId}},\n        \"warehouseId\": {{warehouseId}},\n        \"language\": \"{{language}}\"\n    }\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/tokens",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"tokens"
+					]
+				},
+				"description": "Create authentication token with user name, password, client, role, organization, warehouse and language. The return token is ready for use as Authozation request header (Bearer {token}) for other api call."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/auth/tokens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"authToken\", jsonData.token);",
+							"pm.environment.set(\"refreshToken\", jsonData.refresh_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clientId\": {{clientId}},\n  \"roleId\": {{roleId}},\n  \"organizationId\": {{organizationId}},\n  \"warehouseId\": {{warehouseId}},\n  \"language\": \"{{language}}\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/tokens",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"tokens"
+					]
+				},
+				"description": "Update authentication token with client, role, organization, warehouse and language. A new token is return for use as Authozation request header (Bearer {token}) for other api call."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/auth/refresh",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"authToken\", jsonData.token);",
+							"pm.environment.set(\"refreshToken\", jsonData.refresh_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"refresh_token\": \"{{refreshToken}}\",\n    \"clientId\": {{clientId}},\n    \"userId\": 101\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/refresh",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"refresh"
+					]
+				},
+				"description": "Create a new authentication token based on a refresh token."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/auth/logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"{{authToken}}\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/logout",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"logout"
+					]
+				},
+				"description": "Logout the session related to a token."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/auth/jwk",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/jwk",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"jwk"
+					]
+				},
+				"description": "For integration with gateway API can be required to get the signing key. This requires the SysConfig IDEMPIERE_REST_EXPOSE_JWK=Y"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/auth/roles?client={ad_client_id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/roles?client={{clientId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"roles"
+					],
+					"query": [
+						{
+							"key": "client",
+							"value": "{{clientId}}"
+						}
+					]
+				},
+				"description": "Get list of roles avalable"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/auth/organizations?client={ad_client_id}&role={ad_role_id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/organizations?client={{clientId}}&role={{roleId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"organizations"
+					],
+					"query": [
+						{
+							"key": "client",
+							"value": "{{clientId}}"
+						},
+						{
+							"key": "role",
+							"value": "{{roleId}}"
+						}
+					]
+				},
+				"description": "Get list of organizations available"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/auth/warehouses?client={ad_client_id}&role={ad_role_id}&organization={ad_org_id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/warehouses?client={{clientId}}&role={{roleId}}&organization={{organizationId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"warehouses"
+					],
+					"query": [
+						{
+							"key": "client",
+							"value": "{{clientId}}"
+						},
+						{
+							"key": "role",
+							"value": "{{roleId}}"
+						},
+						{
+							"key": "organization",
+							"value": "{{organizationId}}"
+						}
+					]
+				},
+				"description": "Get list of warehouse available"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/auth/language?client={ad_client_id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/language?client={{clientId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"language"
+					],
+					"query": [
+						{
+							"key": "client",
+							"value": "{{clientId}}"
+						}
+					]
+				},
+				"description": "Get default client language"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models"
+					]
+				},
+				"description": "Get list of table accessible"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_tax",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_tax"
+					]
+				},
+				"description": "Get records for table with optional filter, orderBy and pageNo parameter. Default page size is 100."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_tax?$filter=Name in ('106','PST','Exempt') AND C_Tax_ID in (106,107)&$select=Name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_tax"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "Name in ('106','PST','Exempt') AND C_Tax_ID in (106,107)"
+						},
+						{
+							"key": "$select",
+							"value": "Name"
+						}
+					]
+				},
+				"description": "Get records for table with optional filter using in operator"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}?$valrule",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_uom?$valrule=210&$context=M_Product_ID:124&$select=name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_uom"
+					],
+					"query": [
+						{
+							"key": "$valrule",
+							"value": "210"
+						},
+						{
+							"key": "$context",
+							"value": "M_Product_ID:124"
+						},
+						{
+							"key": "$select",
+							"value": "name"
+						}
+					]
+				},
+				"description": "Get records for table with filter from validation ruyle and passing context"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}?$top={number of records}&$skip={number of records to skip}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/m_product?$top=2&$skip=3",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"m_product"
+					],
+					"query": [
+						{
+							"key": "$top",
+							"value": "2"
+						},
+						{
+							"key": "$skip",
+							"value": "3"
+						}
+					]
+				},
+				"description": "Get a limited number of records from the given table and skips the first n records of the resultset."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}?$expand={childTables($filter={subfilter})}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order?$select=DocumentNo,Description&$expand=C_OrderTax,C_OrderLine($select=Line,Linenetamt ; $top=1 ; $skip=1 ; $filter=IsActive eq true ; $orderby=Line)",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order"
+					],
+					"query": [
+						{
+							"key": "$select",
+							"value": "DocumentNo,Description"
+						},
+						{
+							"key": "$expand",
+							"value": "C_OrderTax,C_OrderLine($select=Line,Linenetamt ; $top=1 ; $skip=1 ; $filter=IsActive eq true ; $orderby=Line)"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}?$expand={tablename}.{columnname}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/ad_user/100?$expand=C_order.salesrep_id($select=documentno)&$select=Name",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"ad_user",
+						"100"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "C_order.salesrep_id($select=documentno)"
+						},
+						{
+							"key": "$select",
+							"value": "Name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}?$expand=fact_acct.recordid",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_invoice/104?$expand=fact_acct.record_id($select=fact_acct_id),c_invoiceline",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_invoice",
+						"104"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "fact_acct.record_id($select=fact_acct_id),c_invoiceline"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}?$expand={childtable($expand={subchildTable})}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_bpartner/119?$select=Name&$expand=AD_User($select=Name ; $expand=R_ContactInterest($select=IsActive ; $filter=IsActive eq true))&showsql",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_bpartner",
+						"119"
+					],
+					"query": [
+						{
+							"key": "$select",
+							"value": "Name"
+						},
+						{
+							"key": "$expand",
+							"value": "AD_User($select=Name ; $expand=R_ContactInterest($select=IsActive ; $filter=IsActive eq true))"
+						},
+						{
+							"key": "showsql",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}?$filter={where clause}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_tax?$filter=C_TaxCategory_ID eq 107",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_tax"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "C_TaxCategory_ID eq 107"
+						}
+					]
+				},
+				"description": "Get records with where clause filter."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}?$select={columnname list}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order?$select=DocumentNo,Description",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order"
+					],
+					"query": [
+						{
+							"key": "$select",
+							"value": "DocumentNo,Description"
+						}
+					]
+				},
+				"description": "Get specific set of columns from the records."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}/{column name}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/ad_client/{{clientId}}/AD_Language",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"ad_client",
+						"{{clientId}}",
+						"AD_Language"
+					]
+				},
+				"description": "Get a specific column value from one records."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}?$expand={child tables}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_tax/106?$expand=c_tax_acct",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_tax",
+						"106"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "c_tax_acct"
+						}
+					]
+				},
+				"description": "Get record by id. Optional details parameter to include retrieval of related child records."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}?$expand={masterFK}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/m_product/122?$expand=m_product_category_id($select=Name,IsDefault),M_ProductPrice",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"m_product",
+						"122"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "m_product_category_id($select=Name,IsDefault),M_ProductPrice"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{uuid}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_tax_acct/7df64952-88e0-4ebf-9f56-9cb899b555f8",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_tax_acct",
+						"7df64952-88e0-4ebf-9f56-9cb899b555f8"
+					]
+				},
+				"description": "Get record by uuid."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"AD_Org_ID\": {\n        \"id\": 0,\n        \"tableName\": \"AD_Org\"\n    },\n    \"isActive\": true,\n    \"name\": \"MyGST\",\n    \"description\": \"MyCanadian Federal Sales Tax\",\n    \"Parent_Tax_ID\": {\n        \"identifier\": \"GST/PST\",\n        \"tableName\": \"C_Tax\"\n    },\n    \"C_Country_ID\": {\n        \"identifier\": \"Canada\",\n        \"tableName\": \"C_Country\"\n    },\n    \"To_Country_ID\": {\n        \"identifier\": \"Canada\",\n        \"tableName\": \"C_Country\"\n    },\n    \"C_TaxCategory_ID\": {\n        \"identifier\": \"Standard\",\n        \"tableName\": \"C_TaxCategory\"\n    },\n    \"isDocumentLevel\": false,\n    \"validFrom\": \"2001-01-01\",\n    \"isSummary\": false,\n    \"rate\": \"7.0\",\n    \"requiresTaxCertificate\": false,\n    \"taxIndicator\": \"GST\",\n    \"isDefault\": false,\n    \"isTaxExempt\": false,\n    \"sOPOType\": {\n        \"id\": \"B\"\n    },\n    \"isSalesTax\": false,\n    \"tableName\": \"C_Tax\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_tax",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_tax"
+					]
+				},
+				"description": "Create new record."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Test creating BP with User and Interest Area from REST\",\n     \"AD_User\": [\n         {\n             \"Name\":\"Test User with Interest area\",\n             \"R_ContactInterest\": [\n                 {\n                     \"R_InterestArea_ID\":101\n                 }\n             ]\n         }\n     ]\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/C_BPartner",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"C_BPartner"
+					]
+				},
+				"description": "Create new record with multiple level children."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1000000,\n    \"name\": \"MyGST\",\n    \"description\": \"My Sales Tax\",\n    \"validFrom\": \"2019-01-01\",\n    \"rate\": \"6.0\",\n    \"isSalesTax\": true,\n    \"taxIndicator\": \"GST\",\n    \"tableName\": \"C_Tax\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_tax/1000000",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_tax",
+						"1000000"
+					]
+				},
+				"description": "Update record by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id} - Location Converter",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"Monroe\",\n     \"C_Location_ID\": {\n        \"id\": 125,  // if id = 0 a new C_Location is created an linked to the record\n        \"address1\": \"address 1\",\n        \"address2\": \"address 2\",\n        \"address3\": \"address 3\",\n        \"address4\": \"address 4\",\n        \"address5\": \"address 5\",\n        \"postal\": \"postal\",\n        \"postal_add\": \"add\",\n        \"c_country_id\": 100,\n        \"c_region_id\": 102,\n        \"regionname\": \"RN\",\n        \"c_city_id\": 0,\n        \"city\": \"Near Village\",\n        \"comments\": \"comments\",\n        \"isactive\": true\n    }\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_bpartner_location/117",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_bpartner_location",
+						"117"
+					]
+				},
+				"description": "Update record by id and using the Location converter to update/create location using the same request"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id} - Image Converter",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"AD_Image_ID\":{\n      \"id\":5000074, //optional, if not informed a new ad_image is created an linked to the record\n      \"file_name\":\"idempiereLogo.jpg\",\n      \"url\":\"org/idempiere/idempiereLogo.jpg\",\n      \"data\":\"/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUSExEVFhMWGCAXGRcWGBgZFxodHBgeGBobHx8fHiggHR8mHh0YJTEjJikrLi4uICAzODMuQygtLisBCgoKDg0OGxAQGy0lHyUtLzcrNS0tNzcyNjcrLS0tNTUtNzctKy0vMjUtLTgvMjYtLS01MS4tMDc3LS0tKystK//AABEIAIUAjgMBIgACEQEDEQH/xAAcAAEAAwADAQEAAAAAAAAAAAAABQYHAQMEAgj/xAA/EAACAQMCAwUFBQUGBwAAAAABAgMABBEFEgYhMRNBUWFxByIygZEUcqGx0TVCUsHhJDM2g7PxI2Jjc4Ky8P/EABoBAQADAQEBAAAAAAAAAAAAAAACAwQGAQX/xAAjEQEAAgICAgICAwAAAAAAAAAAAQIDBBEhE0ESMWGRBSJR/9oADAMBAAIRAxEAPwDcaUpQKUpQKUpQK8t1ak80co/j1U/eU8j+B869VKCCOvmFgl2nZ55LKuTC3z6ofI/WptHBAIIIPMEcwa+Lq3SRSjqGVuRB6VRtQtLnTG7W3YyWpPvRtz2fp94fPzC/UqJ4f4ghu1yhw4+JD8Q/UedS1ApSlApSlApSlApSlApSlArqublIxud1RfFiAPqa4u7hY0eRvhRSx9AM1iuv6y9y5kkPovco8BWrV1ZzTPfEQwb29GtEdczLZbPU4JTiKaNyOoRlY/ga9dfmqa4aNg6MVdTkMpwQfI1t/s94iN7aCR8dqjdnJjvIAIb5gj55psa3i7ieYT1NvzR3HErNXDqCCCAQeRB6GuaVlbGb8QaC1nMJ7clUJ5EfuH+H0P8ASrfw5rguEwcCVfiHj5jy/KpO8tlkRo2GVYY/rVBjge3m5HDIfr/Qig0SldFjdCRA47+7wPeK76BSlKBSlKBSlKBSlKDxa3aGa3liHV42UepHL8a/O9xOykowIZSQQeoI5EV+laqvFPAVpet2jbo5T1ePA3feBGD69fOtetseLmJ+pYtvUjNxPuGA3dzW0+xfTHisWkcEdvJvUH+EAKD88E+mK+NI9klnE4eV5J8HIVsKnzA5n0zirdrOuW1mgMzhBj3UHNjjuVR/sK9z5vL/AFqlgwRhjmyUpWUar7XHzi3tRjuMpJJ/8V/WrLw3c6zMBJOtrCh5hGSQyY9A/u/Pn5VRbDasc26XVzVvPFe1yqv8Q2o3q3iMH5f71Ow7se9jP/LnH41EcSy4CfP+VVLXTw/Ltcxno3Meo/p+VWCqVb3eJEbwYfnzq60ClKUClKUClKUClKUClKieJNaW1hLnm55Ivif0HfUqUm9orH3KGTJXHWb2nqEfxlxUtomxMNOw5L3KP4m/kO+sZ1O4kmcySuXdupP/ANyHlUrfSPI7SOSzsckmo2ZK+9h1a4a/n25bN/IW2L/j1C5eyvhVXY3kq5VDiIHoWHV/l0HnnwrV68Gg2Qht4ogPgQA+uMsfmc176+JmyfO8y6bXx+PHEfsqk8WagDNsB5IMfM8z/KrFxFrC20Jc43Hki+J/QdTWVNeliWJySck+JNVLkx9o5j1rUayDSCZJ4kH7zgfLPP8ADNa/QKUpQKUpQKUpQKUpQcE1VNR4Ze8czTSmMdI4wM7V8W8z1I9BmrZSrMeW2Oea/anNgpmj437j/GHatbNDK8T/ABIcevgfmMVEyPzzVr9p1uY7zfjlIgYHzA2n8h9apUstdBTL88cWn3Dk763iy2rHqX6Nt5QyKw6MAR6EZFRmu8RQWq5dsv3RrzY/oPM1QOG9U+2Wy2n2gw3UQxGdxUSp3KcdSOnyB8ahdQ0W5iYiSGTPjgsD8xkGufyUmlprLrsWSMlItBrmsy3UpkkPkqjoo8B+teAOa9dvpNw5wkEh9Eb9Kl9P4eVZUjuGzK3w20ZDSt5uRyjQd7E+nOocJpn2a6OzMbpx7q5WPzJ5MfkOXzPhWiV128KoqoqhVUYAHQeQrsrx6UpSgUpSgUpSgUpSgUpSggOM+HBewbAQsqe9Gx6Z7wfI/pWGazp81s5jmjZG8+h8wehHmK/SVee+sYpl2SxpIvg4BH41pw7NscfH0yZ9SuWfl9S/L8k3eDzqSh461GJdqXkmB/EQ/wCLAmtku/ZjprnPZOme5JGA+hJr7sPZrpkR3fZ95/6jM4+hO38Ktvs0t6Qxa1qe2U6LNreqNsS4n7POGkLFIh6lcZ9Bk1sfBvCEGnxlU9+V/wC8lb4mPh5L5fXNT8MKooVFCqOQCgAD0Ar7rLfJ8uo6hrrXgpSlVplKUoFKUoFVbRuLmuL2a0FswWJnUy7srlG2jI28s+tWms14d1+4l1maBnxDG0wWNQFXk2Nxx8Td+TQd997UkjmkhFpIxjdkyGHPaSM4x5V7uG/aPb3UogaN4ZGOF3YKk+GR0PqKqHBX7dm+/P8Am1c+16ARX0EyDazKGJHLLI/JvXp9KDY6VnnH/FVylxDY2ZCyy7cvgEgucKoyCB4k+lR8Wu6hp9/FbXc4nil288dAzbcg4BBB7umKDU6VlWt8UaiNVe0t5AQWCIjKu0Fowck4zgEluvdXhXiLVrS++yySrPI+FCnGwlx7jA4BGCR4d9BsdKyJdf1Oy1GKC6nEokZdyjBQq7bcj3QQQc/SvVxZxVfxap9mt5AVJRVjKrtLOg6nGfiOetBqdVPUuM+yv0sfs5bcyDtN2AN/fjb3etVCLiDUrC/jgvJxKkhXOMFdrnbuU7QQQc8vKpPXeJbqPWYrVJsQM8QKbU5hsbuZGefrQaRSs04l4kvJ9QGnWUgi2nDPgZJC7mOcHAA5YHfXPC/EN5BqJ068lEueSvjmDt3rg4GQR3HvoNKpWNji7VJLy4toGMjF3SMbUGwB/izgdFGMscc6keIOJr+1gtbPd/bZQTI52sRukKoB+7k+Pdig1OlZRc61qWmXUKXdwJ4pcbuXQZw2DgEEZz4GtXoFZFwf+37n78//ALmtdqs6XwZDDeSXqySGSQuSp27RvOTjln8aCgcGMBrs2Tj35+vq1c+1W4W4v4IIiHZVCHac+879OXfjH1qQ1Hg/T5buUPNcqzO5L4j7LcFEzqDjPJWzzGOvOpXhrh/SbQrdLcCQ7tiPIykBsc8AADOOeT0HOgq3Htpu1mNGdo1k7IB1OCoPu5B7uYNe7VuHLGC7himvLqSclSgID9XwoJPTmKtnE+hWWpSdkZsXMQPNCNwGeYYHqASPMZ86heGeG7SG8kkklnmkt85lkAESlVUnJ3FshWGC2ByOM45BESf4k/zB/oV9cS/4hh+/D+QqzDR7BrxdTF2dzEuBldh2gRN3Z5ErnzIpqulWD3v297va8MiKy7l2B16KeWc8jnn3Ggq/tH/bNr6Q/wCq1fHEsqrxDGzHAEkOSfuqKuOscOWd5fLKblu3hCHs0K4wrbwTkZ/eHf0I8apPF9kk2uiGQEpI0atg4ODGooO/2ssH1G2jU5YIgIHcWkOBX1xN/iGH/uQ/yqR0XhK0tr87nnmkhAk5hAi+6WUk7tzH3TjA64rtuUsp7lNS/tPaLJEBEBHzJTfH34wVGT72aCsyaZ22uTQNK8W+R8Ohw3wlgAfMVN6ZollFqkcX2q5lukbPvAMvJN2C3XktSXGGh2dykWoCSWN5NgRowMsWwEyGIAI8dw/KvRwfw9Z2knbGZ2uZFH9/7rrvDN8PUEhWyST0NBWfZ9+2rn/O/wBUV1+1aDOpwbmKKyRjeORUdowJB8R1qz6FpthBeC6iuXke6aRFHulMn/iN0AI5Yx6ivVxda6bfQq8tyqhWKpKrDkcbivPkRjB9OYNBVOJuGLK3lijub27d35oMByPex39Mn8q12qBwvwLa9ot19qe62HCkkbQUOBnmSdp6DOKv9ApSlBVtZ4dUfaLjtGxslkEeBgO8HZM2epG0dPEmvNacILLbxFpmLEiQnauCGhSIrt6fCq8/GlKCbstBWOczh2JJkODjH/FKE/Tsx9a8l5woksssjyse1jePAVQQJAAQWAywGMqD0yaUoOi44NV1UGd9252dgq+/2jo7DH7vONennXquOGQVwszI3bvOG2qcGUMrDB5HkxxnyrmlB22PDyR3L3IckuPhIXkSqKTnrjCLy5d/liKv+ChJqK3/AG5BVlbs9mfgUD4t3fjwpSgk5uHg1y9z2mC6BGUohOArL7rEbl+LnjrXkt+DIFUR5zGHicoVXaxij7PmMY97kT50pQS2raYJoeyDBBy5bVZSB+6VIwVx3VXLXRkW+hgDMfs9mQGOCW3MUGRjHugvjr8X1UoJCx4UWNYl7Zj2cjOOQAw8XZFAP3Rjny6HPpXRHwTGIRD2rYBbmFUHDQG3GfEhTnPj5cqUoJzSNMWBXVWJ3yGTn3Fscvwr3UpQf//Z\"\n   }\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/ad_user/100",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"ad_user",
+						"100"
+					]
+				},
+				"description": "Update record by id and using the Image converter to update/create location using the same request"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/m_product/144",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"m_product",
+						"144"
+					]
+				},
+				"description": "Delete record by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/yaml",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/yaml",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/ad_user/yaml",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"ad_user",
+						"yaml"
+					]
+				},
+				"description": "Get openapi yaml for model"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}?showlabel={column name}&label={where clause}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/C_BPartner?showlabel=Name&label=Name eq '%23Customer'&$select=Name,IsCustomer,IsVendor&$filter=IsCustomer eq true&$expand=AD_User($select=Name,C_Job_ID;label=Name eq '%23Manager')",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"C_BPartner"
+					],
+					"query": [
+						{
+							"key": "showlabel",
+							"value": "Name"
+						},
+						{
+							"key": "label",
+							"value": "Name eq '%23Customer'"
+						},
+						{
+							"key": "$select",
+							"value": "Name,IsCustomer,IsVendor"
+						},
+						{
+							"key": "$filter",
+							"value": "IsCustomer eq true"
+						},
+						{
+							"key": "$expand",
+							"value": "AD_User($select=Name,C_Job_ID;label=Name eq '%23Manager')"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}?showlabel={columnname list}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/C_BPartner/119?showlabel=Name,Description&$select=Name,IsCustomer,IsVendor",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"C_BPartner",
+						"119"
+					],
+					"query": [
+						{
+							"key": "showlabel",
+							"value": "Name,Description"
+						},
+						{
+							"key": "$select",
+							"value": "Name,IsCustomer,IsVendor"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}?showlabel",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/C_BPartner/119?showlabel&$select=Name,IsCustomer,IsVendor",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"C_BPartner",
+						"119"
+					],
+					"query": [
+						{
+							"key": "showlabel",
+							"value": null
+						},
+						{
+							"key": "$select",
+							"value": "Name,IsCustomer,IsVendor"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows"
+					]
+				},
+				"description": "Get windows accessible"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows?$filter={where clause}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows?$filter=name eq 'Bank / Cash'",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "name eq 'Bank / Cash'"
+						}
+					]
+				},
+				"description": "Get windows accessible with where clause filter"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}/tabs",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/bank-cash/tabs",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"bank-cash",
+						"tabs"
+					]
+				},
+				"description": "Get window and tabs details by slug of window name."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}/tabs/{tab slug}/fields",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/bank-cash/tabs/bank-cash/fields",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"bank-cash",
+						"tabs",
+						"bank-cash",
+						"fields"
+					]
+				},
+				"description": "Get fields details of a window tab by slug of window namd and tab name."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/bank-cash",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"bank-cash"
+					]
+				},
+				"description": "Get records."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}/{id}?$expand={child tab slug}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/bank-cash/100?$expand=account",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"bank-cash",
+						"100"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "account"
+						}
+					]
+				},
+				"description": "Get record by id. Optional details parameter to include retrieval of child tabs"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}/tabs/{tab slug}/{id}/{child tab slug}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/bank-cash/tabs/account/100/bank-account-document",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"bank-cash",
+						"tabs",
+						"account",
+						"100",
+						"bank-account-document"
+					]
+				},
+				"description": "Get child tab records by parent id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}/tabs/{tab slug}/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/bank-cash/tabs/bank-account-document/100",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"bank-cash",
+						"tabs",
+						"bank-account-document",
+						"100"
+					]
+				},
+				"description": "Get tab record by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}/tabs/{tab slug}/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 100,\n    \"name\": \"My Check Book\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/bank-cash/tabs/bank-account-document/100",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"bank-cash",
+						"tabs",
+						"bank-account-document",
+						"100"
+					]
+				},
+				"description": "Update record by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}/tabs/{tab slug}/{parentId}/{child tab slug}",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"AD_Org_ID\": {\n        \"identifier\": \"HQ\"\n    },\n    \"name\": \"My Check Book 2\",\n    \"isActive\": true,\n    \"paymentRule\": {\n        \"id\": \"S\"\n    },\n    \"currentNext\": 1000,\n    \"Check_PrintFormat_ID\": {\n        \"id\": 124\n    }\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/bank-cash/tabs/account/100/bank-account-document",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"bank-cash",
+						"tabs",
+						"account",
+						"100",
+						"bank-account-document"
+					]
+				},
+				"description": "Create new record for child tab."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}/tabs/{tab slug}/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/bank-cash/tabs/bank-account-document/1000001",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"bank-cash",
+						"tabs",
+						"bank-account-document",
+						"1000001"
+					]
+				},
+				"description": "Delete record by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/sales-order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"isSOTrx\": true,\n\t\"C_DocTypeTarget_ID\": { \"identifier\": \"Standard Order\" },\n\t\"C_BPartner_ID\" : { \"identifier\": \"C&W Construction\" },\n\t\"deliveryViaRule\": \"P\",\n\t\"order-line\": [{\n\t\t\"M_Product_ID\": { \"identifier\": \"Azalea Bush\"},\n\t\t\"qtyEntered\": 1\n\t}],\n\t\"doc-action\": \"CO\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/sales-order",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"sales-order"
+					]
+				},
+				"description": "Example to create and complete a sales order document."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/forms",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/forms",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"forms"
+					]
+				},
+				"description": "Get forms accessible"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/forms?$filter={where clause}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/forms?$filter=entityType neq 'D'",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"forms"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "entityType neq 'D'"
+						}
+					]
+				},
+				"description": "Get forms accessible with where clause filter"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/processes",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/processes?filter=contains(name,'Business Partner')",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"processes"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "contains(name,'Business Partner')"
+						}
+					]
+				},
+				"description": "Get list of process accessible"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/processes/{process slug}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/processes/rv_bpartneropen",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"processes",
+						"rv_bpartneropen"
+					]
+				},
+				"description": "Get process details by slug of process value"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/processes/{process slug}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"processFileName\", encodeURIComponent(jsonData.exportFile));",
+							"pm.environment.set(\"processFileLength\", jsonData.exportFileLength);",
+							"pm.environment.set(\"processNodeId\", jsonData.nodeId);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"C_BPartner_ID\": \"117,114\",\n\t\"DateOrdered\": \"2022-01-01\",\n\t\"DateOrdered_to\": \"2022-12-31\",\n\t\"report-type\" : \"HTML\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/processes/rv_orderdetail",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"processes",
+						"rv_orderdetail"
+					]
+				},
+				"description": "Run process"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/tasks",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"tasks"
+					]
+				},
+				"description": "Get list of tasks accessible"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/task/{task slug}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/tasks/java-version",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"java-version"
+					]
+				},
+				"description": "Get task details by slug of task name"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/tasks/{task slug}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/tasks/java-version",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"tasks",
+						"java-version"
+					]
+				},
+				"description": "Run task"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/files?fileName={file name}&length={file size}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/octet-stream",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/files?fileName={{logFileName}}&length={{logFileLength}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"files"
+					],
+					"query": [
+						{
+							"key": "fileName",
+							"value": "{{logFileName}}"
+						},
+						{
+							"key": "length",
+							"value": "{{logFileLength}}"
+						}
+					]
+				},
+				"description": "Get file by name and size"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}/attachments",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order/1000022/attachments",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order",
+						"1000022",
+						"attachments"
+					]
+				},
+				"description": "Get attachments of a record"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}/attachments/zip",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/octet-stream",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order/1000022/attachments/zip",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order",
+						"1000022",
+						"attachments",
+						"zip"
+					]
+				},
+				"description": "Get attachments of a record as zip file"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}/attachments/{file name}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/octet-stream",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order/1000022/attachments/IDEMPIERE-3997.patch",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order",
+						"1000022",
+						"attachments",
+						"IDEMPIERE-3997.patch"
+					]
+				},
+				"description": "Get attachment by file name"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}/attachments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"IDEMPIERE-4018.patch\",\n\t\"data\": \"IyBIRyBjaGFuZ2VzZXQgcGF0Y2gKIyBVc2VyIGVsYWluZXRhbgojIERhdGUgMTU2NTA4MDc0NSAtMjg4MDAKIyAgICAgIFR1ZSBBdWcgMDYgMTY6Mzk6MDUgMjAxOSArMDgwMAojIEJyYW5jaCByZWxlYXNlLTYuMgojIE5vZGUgSUQgMGY5ODMyZGM4ZGZlOWQ3Nzg5MDg5NjNkNWE3YTMyNzU3NDZkNzljMgojIFBhcmVudCAgMDJkNmJlYTQ3NjU2OTU4MzBhMjQxYjAyM2Q0Y2Q4Nzg3MGViMTZmNwpJREVNUElFUkUtNDAxOCBPcmRlciBMaW5lIFByaWNlRW50ZXJlZC9QcmljZUFjdHVhbCB3aXRoIGluY29ycmVjdCBQcmljZSBMaXN0IFZlcnNpb24KCmRpZmYgLXIgMDJkNmJlYTQ3NjU2IC1yIDBmOTgzMmRjOGRmZSBvcmcuYWRlbXBpZXJlLmJhc2Uvc3JjL29yZy9jb21waWVyZS9tb2RlbC9NUHJvZHVjdFByaWNpbmcuamF2YQotLS0gYS9vcmcuYWRlbXBpZXJlLmJhc2Uvc3JjL29yZy9jb21waWVyZS9tb2RlbC9NUHJvZHVjdFByaWNpbmcuamF2YQlUdWUgQXVnIDA2IDEyOjI5OjMzIDIwMTkgKzA4MDAKKysrIGIvb3JnLmFkZW1waWVyZS5iYXNlL3NyYy9vcmcvY29tcGllcmUvbW9kZWwvTVByb2R1Y3RQcmljaW5nLmphdmEJVHVlIEF1ZyAwNiAxNjozOTowNSAyMDE5ICswODAwCkBAIC0zNyw5ICszNyw2IEBACiAgKi8NCiBwdWJsaWMgY2xhc3MgTVByb2R1Y3RQcmljaW5nIGV4dGVuZHMgQWJzdHJhY3RQcm9kdWN0UHJpY2luZw0KIHsNCi0JDQotCXByaXZhdGUgU3RyaW5nIHRyeE5hbWU9bnVsbDsNCi0NCiAJLyoqDQogCSAqIE5ldyBjb25zdHJ1Y3RvciB0byBiZSB1c2VkIHdpdGggdGhlIFByb2R1Y3RQcmljZUZhY3Rvcmllcw0KIAkgKi8NCkBAIC04OCw4ICs4NSw2IEBACiAJCW1fdXNlVmVuZG9yQnJlYWsgPSB0aGVyZUFyZVZlbmRvckJyZWFrUmVjb3JkcyA+IDA7DQogCX0NCiANCi0JcHJpdmF0ZSBpbnQgCQltX01fUHJpY2VMaXN0X1ZlcnNpb25fSUQgPSAwOw0KLQlwcml2YXRlIFRpbWVzdGFtcCAJbV9QcmljZURhdGU7CQ0KIAkvKiogUHJlY2lzaW9uIC0xID0gbm8gcm91bmRpbmcJCSovDQogCXByaXZhdGUgaW50CQkgCW1fcHJlY2lzaW9uID0gLTE7DQogCQ0K\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order/1000022/attachments",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order",
+						"1000022",
+						"attachments"
+					]
+				},
+				"description": "Add new attachment"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{table name}/{id}/attachments",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/m_product/144/attachments",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"m_product",
+						"144",
+						"attachments"
+					]
+				},
+				"description": "Delete attachments of a record by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{tableName}/{id}/print",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order/102/print",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order",
+						"102",
+						"print"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/windows/{window slug}/{recordid}/print",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/windows/sales-order/102/print",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"windows",
+						"sales-order",
+						"102",
+						"print"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/reference/{reference id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/reference/f973985f-3064-40de-b097-baed00bb8d5d",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"reference",
+						"f973985f-3064-40de-b097-baed00bb8d5d"
+					]
+				},
+				"description": "Get reference list value name pairs."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/caches",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/caches",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"caches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/caches",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/caches",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"caches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/nodes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"nodeId\", jsonData[jsonData.length-1].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/nodes",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"nodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/nodes/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/nodes/{{nodeId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"nodes",
+						"{{nodeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/nodes/{id}/logs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"logFileName\", encodeURIComponent(jsonData[jsonData.length-1].fileName));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/nodes/{{nodeId}}/logs",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"nodes",
+						"{{nodeId}}",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/nodes/{id}/logs/file",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/nodes/{{nodeId}}/logs/file?fileName={{logFileName}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"nodes",
+						"{{nodeId}}",
+						"logs",
+						"file"
+					],
+					"query": [
+						{
+							"key": "fileName",
+							"value": "{{logFileName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/nodes/{id}/logs/rotate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/nodes/{{nodeId}}/logs/rotate",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"nodes",
+						"{{nodeId}}",
+						"logs",
+						"rotate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "del api/v1/nodes/{id}/logs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/nodes/{{nodeId}}/logs",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"nodes",
+						"{{nodeId}}",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/servers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"serverId\", jsonData[jsonData.length-1].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/servers",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"servers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/servers/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/servers/{{serverId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"servers",
+						"{{serverId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/servers/{id}/logs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/servers/{{serverId}}/logs",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"servers",
+						"{{serverId}}",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/servers/{id}/state",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/servers/{{serverId}}/state",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"servers",
+						"{{serverId}}",
+						"state"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/servers/reload",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"serverId\", jsonData[jsonData.length-1].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/servers/reload",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"servers",
+						"reload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/servers/{id}/run",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/servers/{{serverId}}/run",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"servers",
+						"{{serverId}}",
+						"run"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/servers/schedulers/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/servers/schedulers/100",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"servers",
+						"schedulers",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post api/v1/servers/schedulers/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/servers/schedulers/100",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"servers",
+						"schedulers",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "del api/v1/servers/schedulers/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/servers/schedulers/100",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"servers",
+						"schedulers",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sysadmin api/v1/auth/tokens",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"authToken\", jsonData.token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userName\":\"{{sysuserName}}\",\"password\":\"{{syspassword}}\"}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/tokens",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sysadmin api/v1/auth/tokens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"authToken\", jsonData.token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clientId\": 0,\n  \"roleId\": 0,\n  \"organizationId\": 0\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/auth/tokens?=",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"tokens"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/infos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"infoSlug\", jsonData[jsonData.length-1].slug);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/infos",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"infos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/infos/{infoSlug}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/infos/{{infoSlug}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"infos",
+						"{{infoSlug}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/infos/{infoSlug}/columns",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/infos/{{infoSlug}}/columns",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"infos",
+						"{{infoSlug}}",
+						"columns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/infos/{infoSlug}/processes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/infos/support-users-vs-roles/processes",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"infos",
+						"support-users-vs-roles",
+						"processes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/infos/{infoSlug}/relateds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/infos/business-partner-info/relateds",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"infos",
+						"business-partner-info",
+						"relateds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/workflow",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/workflow",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"workflow"
+					]
+				},
+				"description": "Get workflow nodes for the current user"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/workflow/{userid}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/workflow/100",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"workflow",
+						"100"
+					]
+				},
+				"description": "Get workflow nodes by the user id/uuid"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/workflow/approve/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"This is the end, my only friend\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/workflow/approve/100",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"workflow",
+						"approve",
+						"100"
+					]
+				},
+				"description": "approves node by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/workflow/reject/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"Please change the qty to 4\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/workflow/reject/100",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"workflow",
+						"reject",
+						"100"
+					]
+				},
+				"description": "rejects node by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/workflow/forward/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"Forwarding for review of BP\",\n    \"userTo\": \"102\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/workflow/forward/1000000",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"workflow",
+						"forward",
+						"1000000"
+					]
+				},
+				"description": "forward node by id to a userTo"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/workflow/acknowledge/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"Reviewed, everything OK\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/workflow/acknowledge/1001203",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"workflow",
+						"acknowledge",
+						"1001203"
+					]
+				},
+				"description": "acknowledge a node by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/workflow/setuserchoice/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"I like this choice\",\n    \"value\": \"Setting a value using setuserchoice\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/workflow/setuserchoice/1001223",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"workflow",
+						"setuserchoice",
+						"1001223"
+					]
+				},
+				"description": "set user choice in a node by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/statuslines",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/statuslines?$filter=EntityType neq 'D'&with_messages=true",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"statuslines"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "EntityType neq 'D'"
+						},
+						{
+							"key": "with_messages",
+							"value": "true"
+						}
+					]
+				},
+				"description": "Get list of status lines"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/statuslines/{statuslineid}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/statuslines/200024",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"statuslines",
+						"200024"
+					]
+				},
+				"description": "Get message of a status line"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/charts/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/charts/50002?width=800&height=600",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"charts",
+						"50002"
+					],
+					"query": [
+						{
+							"key": "width",
+							"value": "800"
+						},
+						{
+							"key": "height",
+							"value": "600"
+						}
+					]
+				},
+				"description": "Get chart Sales YTD with size 800x600"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/charts/{id}/data",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/charts/50002/data",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"charts",
+						"50002",
+						"data"
+					]
+				},
+				"description": "Get data from chart 50002"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/charts/data?$filter={where clause}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/charts/data?$filter=AD_Chart_ID eq 50000 OR AD_Chart_ID eq 50001",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"charts",
+						"data"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "AD_Chart_ID eq 50000 OR AD_Chart_ID eq 50001"
+						}
+					]
+				},
+				"description": "Get data from charts filtered by id"
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/menutree/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/menutree/10",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"menutree",
+						"10"
+					]
+				},
+				"description": "Get menu tree for an Id."
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/models/{tableName}?locale={locale}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/{{tableName}}?locale={{locale}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"{{tableName}}"
+					],
+					"query": [
+						{
+							"key": "locale",
+							"value": "{{locale}}"
+						}
+					]
+				},
+				"description": "Get models with locale query parameter."
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/models/c_order - Create Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var jsonData = pm.response.json();",
+							"if (jsonData && jsonData.id)",
+							"    pm.collectionVariables.set(\"c_order_id\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"C_BPartner_ID\": 118,\n    \"C_DocTypeTarget_ID\": 132\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order?",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/models/c_order - Add Order Line",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"var jsonData = pm.response.json();",
+							"if (jsonData && jsonData.C_OrderLine && jsonData.C_OrderLine.length > 0)",
+							"    pm.collectionVariables.set(\"c_orderline_id\", jsonData.C_OrderLine[0].id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"C_OrderLine\": [\n        {\n            \"M_Product_ID\": 128,\n            \"QtyEntered\" : 1\n        }\n    ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order/:id",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{c_order_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/models/c_order - Delete and Add Order Line",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"C_OrderLine\": [\n        {\n            \"id\": {{c_orderline_id}},\n            \"(delete)\" : true\n        },\n        {\n            \"M_Product_ID\": 137,\n            \"QtyEntered\": 1\n        }\n    ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order/:id",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{c_order_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/v1/models/c_order - Get Order and Order Lines",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/v1/models/c_order/:id?$expand=C_OrderLine",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"models",
+						"c_order",
+						":id"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "C_OrderLine"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{c_order_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "c_order_id",
+			"value": ""
+		},
+		{
+			"key": "c_orderline_id",
+			"value": ""
+		}
+	]
+}

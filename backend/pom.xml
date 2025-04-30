@@ -12,6 +12,7 @@
 		<relativePath>org.idempiere.parent/pom.xml</relativePath>
 	</parent>
 	<modules>
+		<module>com.trekglobal.idempiere.rest.api</module>
 		<module>org.adempiere.base</module>
 		<module>org.adempiere.base.callout</module>
 		<module>org.adempiere.base.process</module>
