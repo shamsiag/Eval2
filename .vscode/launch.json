@@ -1,0 +1,97 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "server.product.launch",
+            "request": "launch",
+            "mainClass": "org.eclipse.equinox.launcher.Main",
+            "classPaths": [
+                "C:\\Users\\Admin\\AppData\\Roaming\\Cursor\\User\\workspaceStorage\\fe5e38922c57dccd608562e435015fc4\\redhat.java\\jdt_ws\\.metadata\\.plugins\\org.eclipse.pde.core\\.bundle_pool\\plugins\\org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar",
+                ""
+            ],
+            "args": [
+                "-product",
+                "org.adempiere.server.product",
+                "-data",
+                "C:\\Users\\Admin\\AppData\\Roaming\\Cursor\\User\\workspaceStorage\\fe5e38922c57dccd608562e435015fc4\\redhat.java\\jdt_ws/runtime-server.product",
+                "-configuration",
+                "file:C:/Users/Admin/AppData/Roaming/Cursor/User/workspaceStorage/fe5e38922c57dccd608562e435015fc4/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/server.product/",
+                "-dev",
+                "file:C:/Users/Admin/AppData/Roaming/Cursor/User/workspaceStorage/fe5e38922c57dccd608562e435015fc4/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/server.product/dev.properties",
+                "-os",
+                "win32",
+                "-ws",
+                "win32",
+                "-arch",
+                "x86_64",
+                "-nl",
+                "fr_FR",
+                "-consoleLog",
+                "-console"
+            ],
+            "vmArgs": [
+                "-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true",
+                "--add-modules=java.se",
+                "--add-opens=java.base/java.lang=ALL-UNNAMED",
+                "--add-opens=java.base/java.nio=ALL-UNNAMED",
+                "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED",
+                "--add-opens=java.management/sun.management=ALL-UNNAMED",
+                "--add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED",
+                "--add-exports=java.base/jdk.internal.ref=ALL-UNNAMED",
+                "--add-exports=java.desktop/sun.awt=ALL-UNNAMED",
+                "--add-exports=java.sql.rowset/com.sun.rowset=ALL-UNNAMED",
+                "--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED",
+                "-Declipse.product=org.adempiere.server.product",
+                "-Dosgi.noShutdown=true",
+                "-Dosgi.framework.activeThreadType=normal",
+                "-Dorg.osgi.framework.bootdelegation=sun.security.ssl",
+                "-Dosgi.compatibility.bootdelegation=true",
+                "-Djetty.home=jettyhome",
+                "-Djetty.etc.config.urls=etc/jetty-bytebufferpool.xml,etc/jetty-threadpool.xml,etc/jetty.xml,etc/jetty-http.xml,etc/jetty-deploy.xml,etc/jetty-ssl-context.xml,etc/jetty-ssl.xml,etc/jetty-https.xml,etc/jetty-http-forwarded.xml",
+                "-Dmail.mime.encodefilename=true",
+                "-Dmail.mime.decodefilename=true",
+                "-Dmail.mime.encodeparameters=true",
+                "-Dmail.mime.decodeparameters=true",
+                "-Dhazelcast.config=hazelcast.xml",
+                "-Dorg.apache.cxf.osgi.http.transport.disable=true",
+                "-Declipse.pde.launch=true"
+            ],
+            "cwd": "${workspaceFolder}/backend"
+            
+        },
+        {
+            "type": "java",
+            "name": "install.app.launch",
+            "request": "launch",
+            "mainClass": "org.eclipse.equinox.launcher.Main",
+            "classPaths": [
+                "C:\\Users\\Admin\\AppData\\Roaming\\Cursor\\User\\workspaceStorage\\fe5e38922c57dccd608562e435015fc4\\redhat.java\\jdt_ws\\.metadata\\.plugins\\org.eclipse.pde.core\\.bundle_pool\\plugins\\org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar",
+                ""
+            ],
+            "args": [
+                "-application",
+                "org.adempiere.install.application",
+                "-data",
+                "C:\\Users\\Admin\\AppData\\Roaming\\Cursor\\User\\workspaceStorage\\fe5e38922c57dccd608562e435015fc4\\redhat.java\\jdt_ws/runtime-install.app",
+                "-configuration",
+                "file:C:/Users/Admin/AppData/Roaming/Cursor/User/workspaceStorage/fe5e38922c57dccd608562e435015fc4/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/install.app/",
+                "-dev",
+                "file:C:/Users/Admin/AppData/Roaming/Cursor/User/workspaceStorage/fe5e38922c57dccd608562e435015fc4/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/install.app/dev.properties",
+                "-os",
+                "win32",
+                "-arch",
+                "x86_64",
+                "-nl",
+                "fr_FR",
+                "-consoleLog"
+            ],
+            "vmArgs": [
+                "-Dosgi.compatibility.bootdelegation=true",
+                "-Dswing.aatext=true",
+                "-Dswing.plaf.metal.controlFont=Roboto-13",
+                "-Dswing.plaf.metal.userFont=Roboto-13",
+                "-Declipse.pde.launch=true"
+            ]
+        }
+    ]
+}
