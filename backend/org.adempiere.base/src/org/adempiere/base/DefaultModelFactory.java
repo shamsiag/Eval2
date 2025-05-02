@@ -238,10 +238,31 @@ public class DefaultModelFactory extends AbstractModelFactory {
 				superClazz = superClazz.getSuperclass();
 			}
 		}
+		catch (ClassNotFoundException e)
+		{
+			// Try with proper case for common case issues - e.g., Mproduct vs MProduct
+			if (className.contains(".M") && !className.endsWith("M")) {
+				int lastDotIndex = className.lastIndexOf(".");
+				if (lastDotIndex > 0) {
+					String prefix = className.substring(0, lastDotIndex + 2); // include ".M"
+					String entityName = className.substring(lastDotIndex + 2);
+					if (entityName.length() > 0) {
+						// Correct common casing issues - ensure first character after M is uppercase
+						String correctedName = prefix + Character.toUpperCase(entityName.charAt(0)) + 
+						                      (entityName.length() > 1 ? entityName.substring(1) : "");
+						if (!correctedName.equals(className)) {
+							// Try again with the corrected name
+							return getPOclass(correctedName, tableName);
+						}
+					}
+				}
+			}
+			if (s_log.isLoggable(Level.FINEST)) s_log.finest("Not found: " + className);
+		}
 		catch (Exception e)
 		{
+			if (s_log.isLoggable(Level.FINEST)) s_log.finest("Error loading class " + className + ": " + e.toString());
 		}
-		if (s_log.isLoggable(Level.FINEST)) s_log.finest("Not found: " + className);
 		return null;
 	}	//	getPOclass
 

@@ -16,7 +16,6 @@
 /hazelcast.xml
 
 swingclient.product*.launch
-server.product*.launch
 
 /RemoteSystemsTempFiles/
 External Plug-in Libraries
