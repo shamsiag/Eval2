@@ -44,7 +44,7 @@ export default {
         const url = `${this.apiLink}/products`;
         const response = await fetch(url, {
           headers: {
-            "DOLAPIKEY": this.apiKey
+            "DOL": this.apiKey
           }
         });
 

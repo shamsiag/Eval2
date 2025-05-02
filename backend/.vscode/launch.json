@@ -2,6 +2,37 @@
     "configurations": [
         {
             "type": "java",
+            "name": "install.console.app.launch",
+            "request": "launch",
+            "mainClass": "org.eclipse.equinox.launcher.Main",
+            "classPaths": [
+                "/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/a5affb4b969b20bef84ed51f06524a92/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar",
+                ""
+            ],
+            "args": [
+                "-application",
+                "org.adempiere.install.console-application",
+                "-data",
+                "/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/a5affb4b969b20bef84ed51f06524a92/redhat.java/jdt_ws/runtime-install.console.app",
+                "-configuration",
+                "file:/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/a5affb4b969b20bef84ed51f06524a92/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/install.console.app/",
+                "-dev",
+                "file:/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/a5affb4b969b20bef84ed51f06524a92/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/install.console.app/dev.properties",
+                "-os",
+                "macosx",
+                "-arch",
+                "aarch64",
+                "-nl",
+                "en_DE",
+                "-consoleLog"
+            ],
+            "vmArgs": [
+                "-Dosgi.compatibility.bootdelegation=true",
+                "-Declipse.pde.launch=true"
+            ]
+        },
+        {
+            "type": "java",
             "name": "server.product.launch",
             "request": "launch",
             "mainClass": "org.eclipse.equinox.launcher.Main",
