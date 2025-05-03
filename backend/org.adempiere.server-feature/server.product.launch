@@ -452,7 +452,6 @@
         <setEntry value="zweb@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
-        <setEntry value="com.trekglobal.idempiere.rest.api@4:true"/>
         <setEntry value="org.adempiere.base.callout@default:default"/>
         <setEntry value="org.adempiere.base.process@default:default"/>
         <setEntry value="org.adempiere.base@default:default"/>
@@ -488,6 +487,7 @@
         <setEntry value="org.idempiere.zk.extra@default:default"/>
         <setEntry value="org.idempiere.zk.iceblue_c.theme@default:false"/>
         <setEntry value="org.idempiere.zk.pivot@default:false"/>
+        <setEntry value="com.trekglobal.idempiere.rest.api@4:true"/>
     </setAttribute>
     <booleanAttribute key="show_selected_only" value="false"/>
     <booleanAttribute key="tracing" value="false"/>

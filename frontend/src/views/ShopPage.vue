@@ -27,138 +27,95 @@ export default {
       products: [],
       cartItems: [],
       cartId: null,
-      apiKey: localStorage.getItem('apiKey'),
-      apiLink: localStorage.getItem('apiLink'),
+      authToken: localStorage.getItem('authToken'),
+      apiLink: localStorage.getItem('apiLink') || 'http://localhost:8080/api/v1',
+      priceListVersionId: 104
     };
   },
   async created() {
-    await this.fetchProductsFromDolibarr();
-    await this.initCart();
+    await this.fetchProducts();
+    this.loadCartFromStorage();
   },
   methods: {
-    async fetchProductsFromDolibarr() {
+    async fetchProducts() {
       try {
-        console.log('Tentative de récupération des produits depuis Dolibarr...');
-        if (!this.apiKey || !this.apiLink) throw new Error("API Key ou API Link manquant");
+        console.log('Récupération des produits iDempiere...');
+        if (!this.authToken) throw new Error('Token d\'authentification manquant');
 
-        const url = `${this.apiLink}/products`;
+        const filter = `M_PriceList_Version_ID eq ${this.priceListVersionId}`;
+        const url = `${this.apiLink}/models/M_Product?$select=M_Product_ID,Name&$expand=M_ProductPrice($select=M_PriceList_Version_ID,PriceList,PriceStd,PriceLimit;$filter=${filter})`;
+
         const response = await fetch(url, {
-          headers: {
-            "DOL": this.apiKey
-          }
+          headers: { 'Authorization': `Bearer ${this.authToken}` }
         });
 
         if (!response.ok) throw new Error(`Erreur réseau: ${response.statusText}`);
-        const products = await response.json();
+        const { records } = await response.json();
 
-        this.products = products.map(product => {
-          console.log("Produit récupéré:", product);
+        this.products = records.map(item => {
+          const priceInfo = (item.M_ProductPrice && item.M_ProductPrice.length)
+            ? item.M_ProductPrice[0]
+            : { PriceStd: 0 };
+
           return {
-            id: product.id,
-            name: product.label,
-            description: product.description || 'Aucune description disponible.',
-            image: product.url_photo ? `${this.apiLink}${product.url_photo}` : null,
-            price_ht: parseFloat(product.price || 0),
-            price_ttc: parseFloat((product.price) * (1 + product.tva_tx/100)),
-            tva_tx: parseFloat(product.tva_tx || 0),
-            label: product.label,
-            ref: product.ref,
-            weight: product.weight,
-            width: product.width,
-            length: product.length,
-            height: product.height,
-            note: product.array_options?.options_note || 'Aucune note disponible.',
+            id: item.id || item.M_Product_ID,
+            name: item.Name,
+            description: 'Aucune description disponible.',
+            image: null,
+            price_ht: parseFloat(priceInfo.PriceStd),
+            price_ttc: parseFloat(priceInfo.PriceStd),
+            tva_tx: 0,
+            label: item.Name,
+            ref: null,
+            weight: null,
+            width: null,
+            length: null,
+            height: null,
+            note: 'Aucune note disponible.'
           };
         });
-        
-        console.log('Produits récupérés et traités:', this.products);
+        console.log('Produits chargés:', this.products);
       } catch (error) {
-        console.error("Erreur lors de la récupération des produits:", error);
+        console.error('Erreur lors de la récupération des produits :', error);
       }
     },
 
-    async initCart() {
-      try {
-        const clientId = localStorage.getItem('clientId');
-        if (!clientId || !this.apiKey || !this.apiLink) throw new Error("Données manquantes (ClientId, API Key ou API Link)");
-
-        const searchUrl = `${this.apiLink}/orders?sqlfilters=(fk_statut:=:0)and(fk_soc:=:${clientId})`;
-        console.log("Lien url commande:"+searchUrl);
-        const response = await fetch(searchUrl, {
-          headers: {
-            "DOLAPIKEY": this.apiKey
-          }
-        });
-
-        if (!response.ok) throw new Error(`Erreur réseau: ${response.statusText}`);
-        const orders = await response.json();
-        console.log("Commandes brouillon récupérées:", orders);
-
-        if (Array.isArray(orders) && orders.length > 0) {
-          const cartId = orders[0].id;
-          this.cartId = cartId;
-          await this.fetchCartItems(cartId);
-        } else {
-          console.log("Aucune commande brouillon trouvée. Création d'une nouvelle...");
-          const newOrderId = await this.createDraftOrder(clientId);
-          this.cartId = newOrderId;
+    loadCartFromStorage() {
+      const storedCart = localStorage.getItem('cartItems');
+      if (storedCart) {
+        try {
+          this.cartItems = JSON.parse(storedCart);
+        } catch (e) {
+          console.error('Erreur de parsing du panier localStorage:', e);
           this.cartItems = [];
         }
-      } catch (error) {
-        console.error("Erreur lors de l'initialisation du panier:", error);
       }
     },
 
-    async createDraftOrder(clientId) {
-      try {
-        const payload = {
-          socid: clientId,
-          date: new Date().toISOString().split('T')[0],
-          status: 0,
-          lines: []
-        };
+    saveCartToStorage() {
+      localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+    },
 
-        const response = await fetch(`${this.apiLink}/orders`, {
-          method: 'POST',
-          headers: {
-            "DOLAPIKEY": this.apiKey,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
+    addToCart(product) {
+      const existingItem = this.cartItems.find(item => item.id === product.id);
+      if (existingItem) {
+        existingItem.qty += 1;
+      } else {
+        this.cartItems.push({
+          ...product,
+          qty: 1
         });
+      }
 
-        if (!response.ok) {
-          const message = await response.text();
-          throw new Error(`Erreur lors de la création de la commande brouillon: ${message}`);
-        }
+      this.saveCartToStorage();
 
-        const newOrder = await response.json();
-        console.log("Commande brouillon créée:", newOrder);
-        return newOrder.id;
-      } catch (error) {
-        console.error("Erreur lors de la création de la commande:", error);
-        return null;
+      if (this.$toast) {
+        this.$toast.success('Produit ajouté au panier !');
+      } else {
+        alert('Produit ajouté au panier !');
       }
     },
 
-    async fetchCartItems(cartId) {
-      try {
-        console.log(`Récupération des articles pour le panier ID: ${cartId}...`);
-        const url = `${this.apiLink}/orders/${cartId}/lines`;
-        const response = await fetch(url, {
-          headers: {
-            "DOLAPIKEY": this.apiKey
-          }
-        });
-
-        if (!response.ok) throw new Error(`Erreur réseau: ${response.statusText}`);
-        const cartItems = await response.json();
-        this.cartItems = cartItems;
-        console.log("Articles du panier récupérés:", this.cartItems);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des articles du panier:", error);
-      }
-    },
 
     async addNote(productId, noteInput, currentNote) {
       try {
@@ -215,79 +172,6 @@ export default {
         }
       }
     },
-
-    async addToCart(product) {
-      try {
-        console.log('Tentative d\'ajout au panier pour le produit:', product);
-        const isLoggedIn = localStorage.getItem('authToken');
-        if (!isLoggedIn) {
-          alert('Vous devez être connecté pour ajouter des produits au panier.');
-          this.$router.push({ name: 'login' });
-          return;
-        }
-
-        // S'assurer que le panier est initialisé
-        if (!this.cartId) {
-          await this.initCart();
-          if (!this.cartId) {
-            alert("Erreur : impossible d'initialiser le panier");
-            return;
-          }
-        }
-
-        // Calculer le prix HT à partir du prix TTC si nécessaire
-        let priceHt = product.price_ht;
-        if (!priceHt && product.price_ttc) {
-          priceHt = product.price_ttc / (1 + (product.tva_tx / 100));
-        }
-
-        const itemData = {
-          fk_product: product.id,
-          qty: 1,
-          subprice: priceHt,
-          tva_tx: product.tva_tx,
-          label: product.label,
-          product_desc: product.description || "",
-          product_ref: product.ref,
-          price: priceHt,
-          product_tobuy: 1,
-          product_tosell: 1,
-          weight: product.weight || 0,
-          width: product.width || 0,
-          length: product.length || 0,
-          height: product.height || 0,
-          localtax1_tx: "0.0000",
-          localtax2_tx: "0.0000",
-          total_ht: priceHt,
-          total_ttc: product.price_ttc
-        };
-
-        const response = await fetch(`${this.apiLink}/orders/${this.cartId}/lines`, {
-          method: 'POST',
-          headers: {
-            "DOLAPIKEY": this.apiKey,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(itemData)
-        });
-
-        if (response.ok) {
-          console.log('Ajout au panier réussi');
-          await this.fetchCartItems(this.cartId);
-          if (this.$toast) {
-            this.$toast.success('Produit ajouté au panier !');
-          } else {
-            alert('Produit ajouté au panier !');
-          }
-        } else {
-          console.error("Erreur lors de l'ajout au panier :", await response.text());
-          alert("Erreur lors de l'ajout au panier");
-        }
-      } catch (error) {
-        console.error("Erreur fetch (addToCart):", error);
-        alert("Une erreur s'est produite lors de l'ajout au panier");
-      }
-    }
   }
 };
 </script>

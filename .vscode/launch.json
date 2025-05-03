@@ -6,26 +6,26 @@
             "request": "launch",
             "mainClass": "org.eclipse.equinox.launcher.Main",
             "classPaths": [
-                "C:\\Users\\Admin\\AppData\\Roaming\\Cursor\\User\\workspaceStorage\\fe5e38922c57dccd608562e435015fc4\\redhat.java\\jdt_ws\\.metadata\\.plugins\\org.eclipse.pde.core\\.bundle_pool\\plugins\\org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar",
+                "/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/65b07edf9baeb99e8e4f32913af4d086/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar",
                 ""
             ],
             "args": [
                 "-product",
                 "org.adempiere.server.product",
                 "-data",
-                "C:\\Users\\Admin\\AppData\\Roaming\\Cursor\\User\\workspaceStorage\\fe5e38922c57dccd608562e435015fc4\\redhat.java\\jdt_ws/runtime-server.product",
+                "/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/65b07edf9baeb99e8e4f32913af4d086/redhat.java/jdt_ws/runtime-server.product",
                 "-configuration",
-                "file:C:/Users/Admin/AppData/Roaming/Cursor/User/workspaceStorage/fe5e38922c57dccd608562e435015fc4/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/server.product/",
+                "file:/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/65b07edf9baeb99e8e4f32913af4d086/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/server.product/",
                 "-dev",
-                "file:C:/Users/Admin/AppData/Roaming/Cursor/User/workspaceStorage/fe5e38922c57dccd608562e435015fc4/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/server.product/dev.properties",
+                "file:/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/65b07edf9baeb99e8e4f32913af4d086/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/server.product/dev.properties",
                 "-os",
-                "win32",
+                "macosx",
                 "-ws",
-                "win32",
+                "cocoa",
                 "-arch",
-                "x86_64",
+                "aarch64",
                 "-nl",
-                "fr_FR",
+                "en_DE",
                 "-consoleLog",
                 "-console"
             ],
@@ -61,37 +61,35 @@
         },
         {
             "type": "java",
-            "name": "install.app.launch",
+            "name": "install.console.app.launch",
             "request": "launch",
             "mainClass": "org.eclipse.equinox.launcher.Main",
             "classPaths": [
-                "C:\\Users\\Admin\\AppData\\Roaming\\Cursor\\User\\workspaceStorage\\fe5e38922c57dccd608562e435015fc4\\redhat.java\\jdt_ws\\.metadata\\.plugins\\org.eclipse.pde.core\\.bundle_pool\\plugins\\org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar",
+                "/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/65b07edf9baeb99e8e4f32913af4d086/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.equinox.launcher_1.6.500.v20230717-2134.jar",
                 ""
             ],
             "args": [
                 "-application",
-                "org.adempiere.install.application",
+                "org.adempiere.install.console-application",
                 "-data",
-                "C:\\Users\\Admin\\AppData\\Roaming\\Cursor\\User\\workspaceStorage\\fe5e38922c57dccd608562e435015fc4\\redhat.java\\jdt_ws/runtime-install.app",
+                "/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/65b07edf9baeb99e8e4f32913af4d086/redhat.java/jdt_ws/runtime-install.console.app",
                 "-configuration",
-                "file:C:/Users/Admin/AppData/Roaming/Cursor/User/workspaceStorage/fe5e38922c57dccd608562e435015fc4/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/install.app/",
+                "file:/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/65b07edf9baeb99e8e4f32913af4d086/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/install.console.app/",
                 "-dev",
-                "file:C:/Users/Admin/AppData/Roaming/Cursor/User/workspaceStorage/fe5e38922c57dccd608562e435015fc4/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/install.app/dev.properties",
+                "file:/Users/macbookpro/Library/Application Support/Code/User/workspaceStorage/65b07edf9baeb99e8e4f32913af4d086/redhat.java/jdt_ws/.metadata/.plugins/org.eclipse.pde.core/install.console.app/dev.properties",
                 "-os",
-                "win32",
+                "macosx",
                 "-arch",
-                "x86_64",
+                "aarch64",
                 "-nl",
-                "fr_FR",
+                "en_DE",
                 "-consoleLog"
             ],
             "vmArgs": [
                 "-Dosgi.compatibility.bootdelegation=true",
-                "-Dswing.aatext=true",
-                "-Dswing.plaf.metal.controlFont=Roboto-13",
-                "-Dswing.plaf.metal.userFont=Roboto-13",
                 "-Declipse.pde.launch=true"
-            ]
+            ],
+            "cwd": "${workspaceFolder}/backend"
         }
     ]
 }
