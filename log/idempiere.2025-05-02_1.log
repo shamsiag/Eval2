@@ -1,0 +1,29 @@
+*** 2025-05-02 12:20:32.041 idempiere Log (CLogFile) ***
+12:20:32.040 Adempiere.startup: iDempiere(r) Release 13_2024-12-24 -Smart Suite ERP, CRM and SCM- (c) 1999-2025 iDempiere(r); Implementation: iDempiere - Supported by iDempiere community [21]
+12:20:32.041-----------> Ini.loadProperties: /Users/macbookpro/Sham/S6/Eval2-1/idempiere.properties not found [21]
+12:20:32.053 Ini.loadProperties: /Users/macbookpro/Sham/S6/Eval2-1/idempiere.properties #26 [21]
+12:20:32.088===========> CConnection.setAttributes:  - java.lang.StringIndexOutOfBoundsException: begin 0, end -1, length 0 [21]
+java.lang.StringIndexOutOfBoundsException: begin 0, end -1, length 0
+	at java.base/java.lang.String.checkBoundsBeginEnd(String.java:4606)
+	at java.base/java.lang.String.substring(String.java:2709)
+	at org.compiere.db.CConnection.setAttributes(CConnection.java:939)
+	at org.compiere.db.CConnection.get(CConnection.java:62)
+	at org.compiere.Adempiere.startup(Adempiere.java:599)
+	at org.idempiere.jetty.osgi.boot.fragment.FragmentActivator.start(FragmentActivator.java:43)
+	at org.eclipse.jetty.ee8.osgi.boot.PackageAdminServiceTracker.invokeFragmentActivators(PackageAdminServiceTracker.java:248)
+	at org.eclipse.jetty.ee8.osgi.boot.PackageAdminServiceTracker.setup(PackageAdminServiceTracker.java:75)
+	at org.eclipse.jetty.ee8.osgi.boot.PackageAdminServiceTracker.<init>(PackageAdminServiceTracker.java:58)
+	at org.eclipse.jetty.ee8.osgi.boot.EE8Activator.start(EE8Activator.java:452)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$2.run(BundleContextImpl.java:818)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl$2.run(BundleContextImpl.java:1)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:569)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:810)
+	at org.eclipse.osgi.internal.framework.BundleContextImpl.start(BundleContextImpl.java:767)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.startWorker0(EquinoxBundle.java:1032)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle$EquinoxModule.startWorker(EquinoxBundle.java:371)
+	at org.eclipse.osgi.container.Module.doStart(Module.java:605)
+	at org.eclipse.osgi.container.Module.start(Module.java:468)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel$2.run(ModuleContainer.java:1852)
+	at org.eclipse.osgi.internal.framework.EquinoxContainerAdaptor$1$1.execute(EquinoxContainerAdaptor.java:136)
+
+12:20:32.153-----------> JettyBootstrapActivator.startJettyAtJettyHome: Unable to locate the jetty.home folder jettyhome [21]

@@ -3,6 +3,7 @@ import ShopPage from '../views/ShopPage.vue';
 import MesCommandes from '@/views/MesCommandes.vue';
 import Cart from '@/views/CartPage.vue';
 import LoginPage from '@/views/LoginPage.vue';
+import SalesDashboard from '@/views/SalesDashboard.vue';
 
 const routes = [
 
@@ -25,6 +26,11 @@ const routes = [
     path: '/',
     name: 'Login',
     component: LoginPage,
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: SalesDashboard,
   },
 
 ];
