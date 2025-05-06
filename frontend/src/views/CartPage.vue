@@ -169,7 +169,7 @@
             C_BPartner_ID: partnerId
           })
         });
-        // 5. Créer la commande
+        // 5. Créer la commande //target id 135 mampiena stock
         res = await fetch(`${this.apiLink}/models/C_Order`, {
           method: 'POST', headers,
           body: JSON.stringify({
