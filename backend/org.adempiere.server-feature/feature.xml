@@ -366,8 +366,4 @@
          id="javax.security.auth.message-api"
          version="0.0.0"/>
 
-   <plugin
-         id="com.trekglobal.deleteEntities"
-         version="0.0.0"/>
-
 </feature>

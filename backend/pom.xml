@@ -69,7 +69,7 @@
 		<module>org.idempiere.zk.breeze.theme</module>
 		<module>org.idempiere.zk.iceblue_c.theme</module>
 		<module>org.idempiere.p2.targetplatform</module>
-		<module>com.trekglobal.idempiere.rest.api</module>		
+		<module>com.trekglobal.idempiere.rest.api</module>
 	</modules>
 
 </project>

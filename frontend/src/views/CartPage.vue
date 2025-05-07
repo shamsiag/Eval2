@@ -176,7 +176,7 @@
             C_BPartner_ID: partnerId,
             C_DocTypeTarget_ID: 132,
             AD_Org_ID: 11,
-            M_Warehouse_ID: 50002,
+            M_Warehouse_ID: 103,
             "IsSOTrx": true
           })
         });
